@@ -17,7 +17,7 @@ namespace Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(opts => opts.EnableEndpointRouting = false);
 
             services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
             services.AddScoped<UnitOfWork>();
