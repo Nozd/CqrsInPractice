@@ -16,4 +16,40 @@
         public string Course2DisenrollmentComment { get; set; }
         public int? Course2Credits { get; set; }
     }
+
+    /// <summary>
+    /// Персональная информация студента
+    /// </summary>
+    public sealed class StudentPersonalInfoDto
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+    }
+
+
+    /// <summary>
+    /// Модель данных регистрации на курс
+    /// </summary>
+    public sealed class StudentEnrollDto
+    {
+        public string Course { get; set; }
+        public string Grade { get; set; }
+    }
+
+    /// <summary>
+    /// Модель данных переноса курса
+    /// </summary>
+    public sealed class StudentTransferDto
+    {
+        public string Course { get; set; }
+        public string Grade { get; set; }
+    }
+
+    /// <summary>
+    /// Модель данных отмены курса
+    /// </summary>
+    public sealed class StudentDisenrollmentDto
+    {
+        public string Comment { get; set; }
+    }
 }
