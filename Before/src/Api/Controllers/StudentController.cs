@@ -47,8 +47,11 @@ namespace Api.Controllers
             };
         }
 
+        /// <summary>
+        /// Регистрирует студента
+        /// </summary>
         [HttpPost]
-        public IActionResult Create([FromBody] StudentDto dto)
+        public IActionResult RegisterStudent([FromBody] StudentRegisterDto dto)
         {
             var student = new Student(dto.Name, dto.Email);
 
@@ -70,8 +73,11 @@ namespace Api.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Отменяет регистрацию студента
+        /// </summary>
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult UnregisterStudent(long id)
         {
             Student student = _studentRepository.GetById(id);
             if (student == null)
