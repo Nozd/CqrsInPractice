@@ -86,8 +86,8 @@ namespace Api.Controllers
         /// <summary>
         /// Отменяет курс
         /// </summary>
-        [HttpPut("{id:long}/enrollments/{enrollmentNumber:int}/deletion")]
-        public IActionResult Disenroll(long id, int enrollmentNumber, StudentDisenrollmentDto dto)
+        [HttpPost("{id:long}/enrollments/{enrollmentNumber:int}/deletion")]
+        public IActionResult Disenroll(long id, int enrollmentNumber, [FromBody] StudentDisenrollmentDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.Comment))
                 return Error("Disenrollment comment is required");
@@ -110,7 +110,7 @@ namespace Api.Controllers
         /// <summary>
         /// Регистрирует студента на переданный курс
         /// </summary>
-        [HttpPost("{id:id}/enrollments")]
+        [HttpPost("{id:long}/enrollments")]
         public IActionResult Enroll(long id, [FromBody] StudentTransferDto dto)
         {
             Student student = _studentRepository.GetById(id);
@@ -150,7 +150,7 @@ namespace Api.Controllers
             if (!success)
                 return Error($"Grade is incorrect: '{dto.Grade}'");
 
-            var enrollment = student.GetEnrollment(enrollmentNumber);
+            var enrollment = student.GetEnrollment(enrollmentNumber - 1);
             if (enrollment == null)
                 return Error($"No enrollment found with number '{enrollmentNumber}'");
 
