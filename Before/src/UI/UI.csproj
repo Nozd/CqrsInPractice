@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSharpFunctionalExtensions, Version=2.33.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CSharpFunctionalExtensions.2.33.2\lib\net472\CSharpFunctionalExtensions.dll</HintPath>
+    <Reference Include="CSharpFunctionalExtensions, Version=2.34.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CSharpFunctionalExtensions.2.34.3\lib\net472\CSharpFunctionalExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>

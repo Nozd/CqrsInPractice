@@ -173,17 +173,16 @@ namespace Api.Controllers
         [HttpPut("{id:long}")]
         public IActionResult EditPersonalInfo(long id, [FromBody] StudentPersonalInfoDto dto)
         {
+            var handler = new EditPersonalInfoHandler(_unitOfWork);
+            var command = new EditPersonalInfoCommand()
+            {
+                StudentId = id,
+                Email = dto.Email,
+                Name = dto.Name
+            };
+            var result = handler.Handle(command);
 
-            Student student = _studentRepository.GetById(id);
-            if (student == null)
-                return Error($"No student found for Id {id}");
-
-            student.Name = dto.Name;
-            student.Email = dto.Email;
-
-            _unitOfWork.Commit();
-
-            return Ok();
+            return result.IsSuccess ? Ok() : Error(result.Error);
         }
     }
 }

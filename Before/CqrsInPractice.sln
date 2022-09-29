@@ -1,13 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32126.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api\Api.csproj", "{2A7A6997-FF79-41A3-9A30-74FC226D822A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "src\Logic\Logic.csproj", "{B825DC96-5718-4374-8858-C4B69B619A18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "src\UI\UI.csproj", "{51B2B4EF-E9FE-4700-B8B8-6569D9B8BB22}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2A7A6997-FF79-41A3-9A30-74FC226D822A} = {2A7A6997-FF79-41A3-9A30-74FC226D822A}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{937E5D49-13F7-4E72-8127-0A916CA9C894}"
 	ProjectSection(SolutionItems) = preProject
