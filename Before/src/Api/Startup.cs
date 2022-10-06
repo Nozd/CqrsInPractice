@@ -1,4 +1,5 @@
 ﻿using Api.Utils;
+using Logic.Students;
 using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,10 @@ namespace Api
             services.AddMvc(opts => opts.EnableEndpointRouting = false);
 
             services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
-            services.AddScoped<UnitOfWork>();
+            services.AddSingleton<Messages>();
+
+            services.AddTransient<UnitOfWork>();
+            services.AddTransient<ICommandHandler<EditPersonalInfoCommand>, EditPersonalInfoHandler>();
         }
 
         public void Configure(IApplicationBuilder app)

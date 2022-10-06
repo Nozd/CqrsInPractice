@@ -11,12 +11,14 @@ namespace Api.Controllers
     [Route("api/students")]
     public sealed class StudentController : BaseController
     {
+        private readonly Messages _messages;
         private readonly UnitOfWork _unitOfWork;
         private readonly StudentRepository _studentRepository;
         private readonly CourseRepository _courseRepository;
 
-        public StudentController(UnitOfWork unitOfWork)
+        public StudentController(UnitOfWork unitOfWork, Messages messages)
         {
+            _messages = messages;
             _unitOfWork = unitOfWork;
             _studentRepository = new StudentRepository(unitOfWork);
             _courseRepository = new CourseRepository(unitOfWork);
@@ -173,14 +175,13 @@ namespace Api.Controllers
         [HttpPut("{id:long}")]
         public IActionResult EditPersonalInfo(long id, [FromBody] StudentPersonalInfoDto dto)
         {
-            var handler = new EditPersonalInfoHandler(_unitOfWork);
             var command = new EditPersonalInfoCommand()
             {
                 StudentId = id,
                 Email = dto.Email,
                 Name = dto.Name
             };
-            var result = handler.Handle(command);
+            var result = _messages.Dispatch(command);
 
             return result.IsSuccess ? Ok() : Error(result.Error);
         }
