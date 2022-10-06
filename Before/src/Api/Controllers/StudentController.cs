@@ -1,10 +1,10 @@
-﻿using Api.Dtos;
-using Logic.Students;
+﻿using Logic.Students;
 using Logic.Utils;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logic.Dtos;
 
 namespace Api.Controllers
 {
@@ -27,27 +27,13 @@ namespace Api.Controllers
         [HttpGet]
         public IActionResult GetList(string enrolled, int? number)
         {
-            IReadOnlyList<Student> students = _studentRepository.GetList(enrolled, number);
-            List<StudentDto> dtos = students.Select(x => ConvertToDto(x)).ToList();
-            _unitOfWork.Commit();
-            return Ok(dtos);
+            var result = _messages.Dispatch(new GetStudentListQuery(enrolled, number));
+            if (result.IsSuccess)
+                return Ok(result.Value);
+            else
+                return Error(result.Error);
         }
 
-        private StudentDto ConvertToDto(Student student)
-        {
-            return new StudentDto
-            {
-                Id = student.Id,
-                Name = student.Name,
-                Email = student.Email,
-                Course1 = student.FirstEnrollment?.Course?.Name,
-                Course1Grade = student.FirstEnrollment?.Grade.ToString(),
-                Course1Credits = student.FirstEnrollment?.Course?.Credits,
-                Course2 = student.SecondEnrollment?.Course?.Name,
-                Course2Grade = student.SecondEnrollment?.Grade.ToString(),
-                Course2Credits = student.SecondEnrollment?.Course?.Credits,
-            };
-        }
 
         /// <summary>
         /// Регистрирует студента
@@ -175,12 +161,7 @@ namespace Api.Controllers
         [HttpPut("{id:long}")]
         public IActionResult EditPersonalInfo(long id, [FromBody] StudentPersonalInfoDto dto)
         {
-            var command = new EditPersonalInfoCommand()
-            {
-                StudentId = id,
-                Email = dto.Email,
-                Name = dto.Name
-            };
+            var command = new EditPersonalInfoCommand(id, dto.Email, dto.Name);
             var result = _messages.Dispatch(command);
 
             return result.IsSuccess ? Ok() : Error(result.Error);

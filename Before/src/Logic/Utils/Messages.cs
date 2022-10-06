@@ -24,5 +24,17 @@ namespace Logic.Utils
 
             return result;
         }
+
+        public TResult Dispatch<TResult>(IQuery<TResult> query)
+        {
+            Type type = typeof(IQueryHandler<,>);
+            Type[] typeArgs = { query.GetType(), typeof(TResult) };
+            Type handlerType = type.MakeGenericType(typeArgs);
+
+            dynamic handler = _serviceProvider.GetService(handlerType);
+            TResult result = handler.Handle((dynamic)query);
+
+            return result;
+        }
     }
 }

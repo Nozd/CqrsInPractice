@@ -1,4 +1,7 @@
-﻿using Api.Utils;
+﻿using System.Collections.Generic;
+using Api.Utils;
+using CSharpFunctionalExtensions;
+using Logic.Dtos;
 using Logic.Students;
 using Logic.Utils;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +28,7 @@ namespace Api
 
             services.AddTransient<UnitOfWork>();
             services.AddTransient<ICommandHandler<EditPersonalInfoCommand>, EditPersonalInfoHandler>();
+            services.AddTransient<IQueryHandler<GetStudentListQuery, Result<List<StudentDto>>>, GetStudentListHandler>();
         }
 
         public void Configure(IApplicationBuilder app)
