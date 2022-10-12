@@ -1,6 +1,10 @@
-﻿using CSharpFunctionalExtensions;
-using Logic.Students;
-using System;
+﻿using System;
+
+using CSharpFunctionalExtensions;
+
+using Logic.Commands;
+using Logic.Handlers;
+using Logic.Queries;
 
 namespace Logic.Utils
 {

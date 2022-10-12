@@ -1,5 +1,4 @@
-﻿using FluentNHibernate;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
 namespace Logic.Students
 {
