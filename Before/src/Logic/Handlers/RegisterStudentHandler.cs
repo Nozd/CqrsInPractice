@@ -3,11 +3,13 @@
 using CSharpFunctionalExtensions;
 
 using Logic.Commands;
+using Logic.Decorators;
 using Logic.Students;
 using Logic.Utils;
 
 namespace Logic.Handlers
 {
+    [AuditLog]
     public sealed class RegisterStudentHandler : ICommandHandler<RegisterStudentCommand>
     {
         private readonly UnitOfWork _unitOfWork;

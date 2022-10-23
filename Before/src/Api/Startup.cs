@@ -7,6 +7,7 @@ using CSharpFunctionalExtensions;
 using Logic.Commands;
 using Logic.Dtos;
 using Logic.Handlers;
+using Logic.Options;
 using Logic.Queries;
 using Logic.Utils;
 
@@ -41,6 +42,11 @@ namespace Api
             services.AddTransient<ICommandHandler<UnregisterStudentCommand>, UnregisterStudentHandler>();
 
             services.AddTransient<IQueryHandler<GetStudentListQuery, Result<List<StudentDto>>>, GetStudentListHandler>();
+
+            services.AddOptions<DbOptions>().Bind(Configuration.GetSection(nameof(DbOptions)));
+            //services.Configure<DbOptions>(Configuration.GetSection(nameof(DbOptions)));
+
+            services.AddHandlers();
         }
 
         public void Configure(IApplicationBuilder app)

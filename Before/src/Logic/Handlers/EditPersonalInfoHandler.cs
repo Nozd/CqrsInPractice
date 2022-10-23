@@ -1,11 +1,14 @@
 ﻿using CSharpFunctionalExtensions;
 
 using Logic.Commands;
+using Logic.Decorators;
 using Logic.Students;
 using Logic.Utils;
 
 namespace Logic.Handlers
 {
+    [AuditLog]
+    [DatabaseRetry]
     public sealed class EditPersonalInfoHandler : ICommandHandler<EditPersonalInfoCommand>
     {
         private readonly UnitOfWork _unitOfWork;
