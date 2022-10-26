@@ -12,17 +12,19 @@ namespace Logic.Handlers
     [AuditLog]
     public sealed class RegisterStudentHandler : ICommandHandler<RegisterStudentCommand>
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly SessionFactory _sessionFactory;
 
-        public RegisterStudentHandler(UnitOfWork unitOfWork)
+        public RegisterStudentHandler(SessionFactory sessionFactory)
         {
-            _unitOfWork = unitOfWork;
+            _sessionFactory = sessionFactory;
         }
 
         public Result Handle(RegisterStudentCommand command)
         {
-            var courseRepository = new CourseRepository(_unitOfWork);
-            var studentRepository = new StudentRepository(_unitOfWork);
+            var unitOfWork = new UnitOfWork(_sessionFactory);
+
+            var courseRepository = new CourseRepository(unitOfWork);
+            var studentRepository = new StudentRepository(unitOfWork);
 
             var student = new Student(command.Name, command.Email);
 
@@ -40,7 +42,7 @@ namespace Logic.Handlers
 
             studentRepository.Save(student);
 
-            _unitOfWork.Commit();
+            unitOfWork.Commit();
 
             return Result.Success();
         }

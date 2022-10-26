@@ -8,23 +8,25 @@ namespace Logic.Handlers
 {
     public sealed class UnregisterStudentHandler : ICommandHandler<UnregisterStudentCommand>
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly SessionFactory _sessionFactory;
 
-        public UnregisterStudentHandler(UnitOfWork unitOfWork)
+        public UnregisterStudentHandler(SessionFactory sessionFactory)
         {
-            _unitOfWork = unitOfWork;
+            _sessionFactory = sessionFactory;
         }
 
         public Result Handle(UnregisterStudentCommand command)
         {
-            var studentRepository = new StudentRepository(_unitOfWork);
+            var unitOfWork = new UnitOfWork(_sessionFactory);
+
+            var studentRepository = new StudentRepository(unitOfWork);
 
             var student = studentRepository.GetById(command.Id);
             if (student == null)
                 return Result.Failure($"No student found for Id {command.Id}");
 
             studentRepository.Delete(student);
-            _unitOfWork.Commit();
+            unitOfWork.Commit();
 
             return Result.Success();
         }

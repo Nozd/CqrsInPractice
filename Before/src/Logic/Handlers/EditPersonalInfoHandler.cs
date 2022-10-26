@@ -11,17 +11,18 @@ namespace Logic.Handlers
     [DatabaseRetry]
     public sealed class EditPersonalInfoHandler : ICommandHandler<EditPersonalInfoCommand>
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly SessionFactory _sessionFactory;
 
-        public EditPersonalInfoHandler(UnitOfWork unitOfWork)
+        public EditPersonalInfoHandler(SessionFactory sessionFactory)
         {
-
-            _unitOfWork = unitOfWork;
+            _sessionFactory = sessionFactory;
         }
 
         public Result Handle(EditPersonalInfoCommand command)
         {
-            var studentRepository = new StudentRepository(_unitOfWork);
+            var unitOfWork = new UnitOfWork(_sessionFactory);
+
+            var studentRepository = new StudentRepository(unitOfWork);
 
             Student student = studentRepository.GetById(command.StudentId);
             if (student == null)
@@ -30,7 +31,7 @@ namespace Logic.Handlers
             student.Name = command.Name;
             student.Email = command.Email;
 
-            _unitOfWork.Commit();
+            unitOfWork.Commit();
             return Result.Success();
         }
     }

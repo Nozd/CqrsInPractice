@@ -12,17 +12,18 @@ namespace Logic.Handlers
 {
     public sealed class GetStudentListHandler : IQueryHandler<GetStudentListQuery, Result<List<StudentDto>>>
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly SessionFactory _sessionFactory;
 
-        public GetStudentListHandler(UnitOfWork unitOfWork)
+        public GetStudentListHandler(SessionFactory sessionFactory)
         {
-
-            _unitOfWork = unitOfWork;
+            _sessionFactory = sessionFactory;
         }
 
         public Result<List<StudentDto>> Handle(GetStudentListQuery query)
         {
-            var studentsDto = new StudentRepository(_unitOfWork)
+            var unitOfWork = new UnitOfWork(_sessionFactory);
+
+            var studentsDto = new StudentRepository(unitOfWork)
                 .GetList(query.Enrolled, query.Number)
                 .Select(x => ConvertToDto(x))
                 .ToList();

@@ -10,11 +10,11 @@ namespace Logic.Handlers
 {
     public sealed class TransferHandler : ICommandHandler<TransferCommand>
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly SessionFactory _sessionFactory;
 
-        public TransferHandler(UnitOfWork unitOfWork)
+        public TransferHandler(SessionFactory sessionFactory)
         {
-            _unitOfWork = unitOfWork;
+            _sessionFactory = sessionFactory;
         }
 
         public Result Handle(TransferCommand command)
@@ -22,11 +22,13 @@ namespace Logic.Handlers
             if (!Enum.TryParse(command.Grade, out Grade grade))
                 return Result.Failure($"Grade is incorrect: '{command.Grade}'");
 
-            var student = new StudentRepository(_unitOfWork).GetById(command.StudentId);
+            var unitOfWork = new UnitOfWork(_sessionFactory);
+
+            var student = new StudentRepository(unitOfWork).GetById(command.StudentId);
             if (student == null)
                 return Result.Failure($"No student found with Id '{command.StudentId}'");
 
-            var course = new CourseRepository(_unitOfWork).GetByName(command.Course);
+            var course = new CourseRepository(unitOfWork).GetByName(command.Course);
             if (course == null)
                 return Result.Failure($"Course is incorrect: '{command.Course}'");
 
@@ -36,7 +38,7 @@ namespace Logic.Handlers
 
             enrollment.Update(course, grade);
 
-            _unitOfWork.Commit();
+            unitOfWork.Commit();
 
             return Result.Success();
         }

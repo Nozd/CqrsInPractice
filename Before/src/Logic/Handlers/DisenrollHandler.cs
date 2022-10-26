@@ -9,12 +9,11 @@ namespace Logic.Handlers
 {
     public sealed class DisenrollHandler : ICommandHandler<DisenrollCommand>
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly SessionFactory _sessionFactory;
 
-        public DisenrollHandler(UnitOfWork unitOfWork)
+        public DisenrollHandler(SessionFactory sessionFactory)
         {
-
-            _unitOfWork = unitOfWork;
+            _sessionFactory = sessionFactory;
         }
 
         public Result Handle(DisenrollCommand command)
@@ -22,7 +21,9 @@ namespace Logic.Handlers
             if (string.IsNullOrWhiteSpace(command.Comment))
                 return Result.Failure("Disenrollment comment is required");
 
-            var studentRepository = new StudentRepository(_unitOfWork);
+            var unitOfWork = new UnitOfWork(_sessionFactory);
+
+            var studentRepository = new StudentRepository(unitOfWork);
             Student student = studentRepository.GetById(command.StudentId);
             if (student == null)
                 return Result.Failure($"No student found with Id '{command.StudentId}'");
@@ -33,7 +34,7 @@ namespace Logic.Handlers
 
             student.RemoveEnrollment(enrollment, command.Comment);
 
-            _unitOfWork.Commit();
+            unitOfWork.Commit();
 
             return Result.Success();
         }
