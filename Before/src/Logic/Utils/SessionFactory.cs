@@ -8,17 +8,23 @@ using FluentNHibernate.Conventions.Helpers;
 using FluentNHibernate.Conventions.Instances;
 using FluentNHibernate.Mapping;
 
+using Logic.Options;
+
+using Microsoft.Extensions.Options;
+
 using NHibernate;
 
 namespace Logic.Utils
 {
     public sealed class SessionFactory
     {
+        private readonly DbOptions _dbOptions;
         private readonly ISessionFactory _factory;
 
-        public SessionFactory(string connectionString)
+        public SessionFactory(IOptions<DbOptions> dbOptions)
         {
-            _factory = BuildSessionFactory(connectionString);
+            _dbOptions = dbOptions.Value;
+            _factory = BuildSessionFactory(_dbOptions.ConnectionString);
         }
 
         internal ISession OpenSession()

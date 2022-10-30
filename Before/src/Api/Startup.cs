@@ -30,7 +30,7 @@ namespace Api
         {
             services.AddMvc(opts => opts.EnableEndpointRouting = false);
 
-            services.AddSingleton(new SessionFactory(Configuration["ConnectionString"]));
+            services.AddSingleton<SessionFactory>();
             services.AddSingleton<Messages>();
 
             services.AddTransient<UnitOfWork>();
