@@ -43,8 +43,8 @@ namespace Api
 
             services.AddTransient<IQueryHandler<GetStudentListQuery, Result<List<StudentDto>>>, GetStudentListHandler>();
 
-            services.AddOptions<DbOptions>().Bind(Configuration.GetSection(nameof(DbOptions)));
-            //services.Configure<DbOptions>(Configuration.GetSection(nameof(DbOptions)));
+            services.AddOptions<CommandDbOptions>().Bind(Configuration.GetSection(nameof(CommandDbOptions)));
+            services.AddOptions<QueryDbOptions>().Bind(Configuration.GetSection(nameof(QueryDbOptions)));
 
             services.AddHandlers();
         }

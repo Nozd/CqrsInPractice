@@ -1,9 +1,9 @@
 ﻿namespace Logic.Options
 {
     /// <summary>
-    /// Конфигурация работы с БД
+    /// Конфигурация работы с БД (command)
     /// </summary>
-    public sealed class DbOptions
+    public sealed class CommandDbOptions
     {
         /// <summary>
         /// Строка подключения к БД

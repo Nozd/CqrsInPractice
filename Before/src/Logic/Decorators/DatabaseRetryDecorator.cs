@@ -14,9 +14,9 @@ namespace Logic.Decorators
         where TCommand : ICommand
     {
         private readonly ICommandHandler<TCommand> _handler;
-        private readonly DbOptions _dbOptions;
+        private readonly CommandDbOptions _dbOptions;
 
-        public DatabaseRetryDecorator(ICommandHandler<TCommand> handler, IOptions<DbOptions> dbOptions)
+        public DatabaseRetryDecorator(ICommandHandler<TCommand> handler, IOptions<CommandDbOptions> dbOptions)
         {
             _dbOptions = dbOptions.Value;
             _handler = handler;

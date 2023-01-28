@@ -18,10 +18,10 @@ namespace Logic.Utils
 {
     public sealed class SessionFactory
     {
-        private readonly DbOptions _dbOptions;
+        private readonly CommandDbOptions _dbOptions;
         private readonly ISessionFactory _factory;
 
-        public SessionFactory(IOptions<DbOptions> dbOptions)
+        public SessionFactory(IOptions<CommandDbOptions> dbOptions)
         {
             _dbOptions = dbOptions.Value;
             _factory = BuildSessionFactory(_dbOptions.ConnectionString);
